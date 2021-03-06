@@ -6,6 +6,11 @@
 \usage{
 get_package(package_name, repo_id = 1)
 }
+\arguments{
+\item{package_name}{The name of the package.}
+
+\item{repo_id}{The repository ID.}
+}
 \description{
-Get package information by name
+Fetches package information from an RSPM repository for a package by name.
 }

@@ -42,11 +42,22 @@ get_repos()
 List system dependencies for a package.
 
 ```{r}
-get_package_sysreqs("stringr") 
+get_package_sysreqs("stringr", distribution = "redhat") 
+
+(stringr_deps <- get_package_sysreqs("stringr", distribution = "ubuntu"))
 ```
+
+```{r}
+stringr_deps %>% 
+  unnest(dependencies) %>% 
+  # system_reqs is stored in a list because sometimes there is > 1 req per package 
+  transmute(system_reqs = unlist(system_reqs))
+```
+
 Get system requirements for the entire repository.
 
 ```{r}
+# default distro is ubuntu
 (repo_sysreqs <- get_repo_sysreqs(1))
 ```
 Get the install scripts for your Linux distribution

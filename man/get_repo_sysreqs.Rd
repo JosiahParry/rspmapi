@@ -6,6 +6,11 @@
 \usage{
 get_repo_sysreqs(repo_id, distribution = "ubuntu")
 }
+\arguments{
+\item{repo_id}{The repository ID.}
+
+\item{distribution}{The linux distribution to check against. Possible values are `"ubuntu"`, `"centos"`, `"redhat"`, and `"opensuse"`.}
+}
 \description{
 Get all system requirements for a repository
 }

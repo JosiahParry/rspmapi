@@ -6,6 +6,9 @@
 \usage{
 get_repo_packages(repo_id)
 }
+\arguments{
+\item{repo_id}{The repository ID.}
+}
 \description{
 Get all packages for a repository
 }

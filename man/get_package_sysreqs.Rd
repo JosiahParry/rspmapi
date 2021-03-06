@@ -4,7 +4,14 @@
 \alias{get_package_sysreqs}
 \title{Get system requirements for a single package}
 \usage{
-get_package_sysreqs(package_name, repo_id = 1, distribution = "ubuntu")
+get_package_sysreqs(package_name, distribution = "ubuntu", repo_id = 1)
+}
+\arguments{
+\item{package_name}{The name of the package.}
+
+\item{distribution}{The linux distribution to check against. Possible values are `"ubuntu"`, `"centos"`, `"redhat"`, and `"opensuse"`.}
+
+\item{repo_id}{The repository ID.}
 }
 \description{
 Get system requirements for a single package

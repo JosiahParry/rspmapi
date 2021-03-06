@@ -2,10 +2,12 @@
 % Please edit documentation in R/api.R
 \name{get_repos}
 \alias{get_repos}
-\title{Get package repository information}
+\title{Get package repository information
+Provides a tibble of all repositories on RSPM.}
 \usage{
 get_repos()
 }
 \description{
 Get package repository information
+Provides a tibble of all repositories on RSPM.
 }

@@ -36,30 +36,50 @@ get_repos()
 List system dependencies for a package.
 
 ``` r
-get_package_sysreqs("stringr") 
-#> # A tibble: 1 x 3
-#>   name    source_files                                           dependencies   
-#>   <chr>   <chr>                                                  <list>         
-#> 1 stringr https://packagemanager.rstudio.com/__api__/packages/9… <df[,3] [3 × 3…
+get_package_sysreqs("stringr", distribution = "redhat") 
+#> # A tibble: 1 x 4
+#>   name    distribution has_sysreqs dependencies    
+#>   <chr>   <chr>        <lgl>       <list>          
+#> 1 stringr redhat       FALSE       <df[,4] [3 × 4]>
+
+(stringr_deps <- get_package_sysreqs("stringr", distribution = "ubuntu"))
+#> # A tibble: 1 x 4
+#>   name    distribution has_sysreqs dependencies    
+#>   <chr>   <chr>        <lgl>       <list>          
+#> 1 stringr ubuntu       TRUE        <df[,4] [3 × 4]>
+```
+
+``` r
+stringr_deps %>% 
+  unnest(dependencies) %>% 
+  # system_reqs is stored in a list because sometimes there is > 1 req per package 
+  transmute(system_reqs = unlist(system_reqs))
+#> # A tibble: 3 x 1
+#>   system_reqs
+#>   <chr>      
+#> 1 <NA>       
+#> 2 <NA>       
+#> 3 libicu-dev
 ```
 
 Get system requirements for the entire repository.
 
 ``` r
+# default distro is ubuntu
 (repo_sysreqs <- get_repo_sysreqs(1))
 #> # A tibble: 726 x 5
-#>    name               package_reqs install_scripts pre_install post_install    
-#>    <chr>              <list>       <list>          <list>      <list>          
-#>  1 rkafka             <chr [1]>    <chr [1]>       <lgl [1]>   <df[,1] [1 × 1]>
-#>  2 rriskDistributions <chr [4]>    <chr [4]>       <lgl [1]>   <lgl [1]>       
-#>  3 bdpopt             <chr [1]>    <chr [1]>       <lgl [1]>   <lgl [1]>       
-#>  4 RWebLogo           <chr [1]>    <chr [1]>       <lgl [1]>   <lgl [1]>       
-#>  5 gdata              <chr [1]>    <chr [1]>       <lgl [1]>   <lgl [1]>       
-#>  6 mailR              <chr [1]>    <chr [1]>       <lgl [1]>   <df[,1] [1 × 1]>
-#>  7 DeducerText        <chr [1]>    <chr [1]>       <lgl [1]>   <df[,1] [1 × 1]>
-#>  8 gbp                <chr [1]>    <chr [1]>       <lgl [1]>   <lgl [1]>       
-#>  9 prevalence         <chr [1]>    <chr [1]>       <lgl [1]>   <lgl [1]>       
-#> 10 dataframes2xls     <chr [1]>    <chr [1]>       <lgl [1]>   <lgl [1]>       
+#>    name               system_reqs install_scripts pre_install post_install    
+#>    <chr>              <list>      <list>          <list>      <list>          
+#>  1 rkafka             <chr [1]>   <chr [1]>       <lgl [1]>   <df[,1] [1 × 1]>
+#>  2 rriskDistributions <chr [4]>   <chr [4]>       <lgl [1]>   <lgl [1]>       
+#>  3 bdpopt             <chr [1]>   <chr [1]>       <lgl [1]>   <lgl [1]>       
+#>  4 RWebLogo           <chr [1]>   <chr [1]>       <lgl [1]>   <lgl [1]>       
+#>  5 gdata              <chr [1]>   <chr [1]>       <lgl [1]>   <lgl [1]>       
+#>  6 mailR              <chr [1]>   <chr [1]>       <lgl [1]>   <df[,1] [1 × 1]>
+#>  7 DeducerText        <chr [1]>   <chr [1]>       <lgl [1]>   <df[,1] [1 × 1]>
+#>  8 gbp                <chr [1]>   <chr [1]>       <lgl [1]>   <lgl [1]>       
+#>  9 prevalence         <chr [1]>   <chr [1]>       <lgl [1]>   <lgl [1]>       
+#> 10 dataframes2xls     <chr [1]>   <chr [1]>       <lgl [1]>   <lgl [1]>       
 #> # … with 716 more rows
 ```
 
