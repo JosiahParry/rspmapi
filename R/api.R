@@ -16,6 +16,10 @@ remove_null <- function(x) {
 
 #' Get package repository information
 #'
+#' @import magrittr
+#' @import jsonlite
+#' @import dplyr
+#' @import httr
 #' @export
 get_repos <- function() {
   GET(file.path(b_url, "repos")) %>%
@@ -27,6 +31,12 @@ get_repos <- function() {
 
 #get_repos()
 #' Get all packages for a repository
+#' @import magrittr
+#' @import jsonlite
+#' @import dplyr
+#' @import httr
+#' @import purrr
+#' @import progress
 #' @export
 # TODO add n_pages argument
 get_repo_packages <- function(repo_id) {
@@ -57,6 +67,11 @@ get_repo_packages <- function(repo_id) {
 
 # Get package by name -----------------------------------------------------
 #' Get package information by name
+#' @import magrittr
+#' @import jsonlite
+#' @import dplyr
+#' @import httr
+#' @import purrr
 #' @export
 get_package <- function(package_name, repo_id = 1) {
   query_url <- file.path(b_url, "repos",
@@ -83,7 +98,15 @@ get_package <- function(package_name, repo_id = 1) {
 
 # Get package sys reqs ----------------------------------------------------
 # TODO distribution and package version arguments
+# TODO add has_sysreq field
 #' Get system requirements for a single package
+#'
+#' @import magrittr
+#' @import jsonlite
+#' @import dplyr
+#' @import httr
+#' @import purrr
+#' @import progress
 #' @export
 get_package_sysreqs <- function(package_name, repo_id = 1, distribution = "ubuntu") {
   query_url <- file.path(b_url, "repos",
@@ -100,7 +123,7 @@ get_package_sysreqs <- function(package_name, repo_id = 1, distribution = "ubunt
 
   tibble(name = pluck(res, "name"),
          source_files = pluck(res, "source_file", .default = NA),
-         has_sysreqs = ifelse(length(inst_scripts) == 1 && inst_scripts == "", FALSE, TRUE),
+       #  has_sysreqs = ifelse(length(inst_scripts) == 1 && inst_scripts == "", FALSE, TRUE),
          dependencies = list(deps)) %>%
     as_tibble()
 }
@@ -114,6 +137,12 @@ get_package_sysreqs <- function(package_name, repo_id = 1, distribution = "ubunt
 # You can get them all out of the way prior to having to useRs ask for them :)
 
 #' Get all system requirements for a repository
+#' @import magrittr
+#' @import jsonlite
+#' @import dplyr
+#' @import httr
+#' @import purrr
+#' @import progress
 #' @export
 get_repo_sysreqs <- function(repo_id, distribution = "ubuntu") {
   query_url <- file.path(b_url, "repos", repo_id, "sysreqs")
